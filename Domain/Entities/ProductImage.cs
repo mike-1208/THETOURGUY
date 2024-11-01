@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace THETOURGUY.Domain.Entities;
+namespace Domain.Entities;
 public class ProductImage
 {
     public int Id { get; set; }

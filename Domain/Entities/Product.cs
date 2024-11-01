@@ -1,4 +1,4 @@
-namespace THETOURGUY.Domain.Entities;
+namespace Domain.Entities;
 
 public class Product
 {
