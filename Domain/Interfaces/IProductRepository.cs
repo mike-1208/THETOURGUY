@@ -1,8 +1,8 @@
-using Application.DTO;
+using Application.DTOs;
 
 namespace Domain.Interfaces;
 
-public interface IProductrepository;
+public interface IProductRepository
 {
     public string Supplier { get; }
 

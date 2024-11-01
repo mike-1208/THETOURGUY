@@ -1,9 +1,7 @@
 using Application.DTOs;
 using Domain.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
 
-namespace TourGuy.Application.Services
+namespace Application.Services
 {
     public class ProductRepositoryAggregator
     {
