@@ -1,0 +1,8 @@
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.csproj.AssemblyReference.cache
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.GeneratedMSBuildEditorConfig.editorconfig
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.AssemblyInfoInputs.cache
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.AssemblyInfo.cs
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.csproj.CoreCompileInputs.cache
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.MvcApplicationPartsAssemblyInfo.cs
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.MvcApplicationPartsAssemblyInfo.cache
+D:\.net workspace\TheTourGuy\obj\Debug\net8.0\TheTourGuy.sourcelink.json
