@@ -1,0 +1,58 @@
+using System.Collections.Generic;
+using System.Linq;
+using Application.DTOs;
+using Domain.Interfaces;
+using Infrastructure.Persistence;
+
+namespace Infrastructure.Repositories
+{
+    public class ProductRepository : IProductRepository
+    {
+        public string Supplier { get; } = "Internal";
+        private readonly TourGuyDbContext _context;
+
+        public ProductRepository(TourGuyDbContext context)
+        {
+            _context = context;
+        }
+
+        public List<ProductDTO> GetProducts(
+            int numberOfGuests, 
+            string? name, 
+            string? destination, 
+            decimal? maxPrice, 
+            int skipCount, 
+            int takeCount)
+        {
+            var query = _context.Products
+                .Where(p => p.MaxGuests >= numberOfGuests)
+                .Where(p => string.IsNullOrEmpty(name) || p.Name.Contains(name))
+                .Where(p => !maxPrice.HasValue || p.Price <= maxPrice);
+
+            return query.Skip(skipCount)
+                .Take(takeCount)
+                .Select(p => new ProductDTO
+                {
+                    Name = p.Name,
+                    Description = p.Description,
+                    Destination = destination ?? "Unknown",
+                    Price = p.Price,
+                    Supplier = Supplier
+                }).ToList();
+        }
+
+        public int GetTotalCount(
+            int numberOfGuests, 
+            string? name, 
+            string? destination, 
+            decimal? maxPrice)
+        {
+            var query = _context.Products
+                .Where(p => p.MaxGuests >= numberOfGuests)
+                .Where(p => string.IsNullOrEmpty(name) || p.Name.Contains(name))
+                .Where(p => !maxPrice.HasValue || p.Price <= maxPrice);
+
+            return query.Count();
+        }
+    }
+}

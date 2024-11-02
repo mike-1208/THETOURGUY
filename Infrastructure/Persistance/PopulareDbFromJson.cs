@@ -2,7 +2,7 @@ using System;
 using System.Text.Json;
 using Domain.Entities;
 
-namespace TourGuy.Infrastructure.Persistance;
+namespace Infrastructure.Persistance;
 
 public class Image
 {
