@@ -4,27 +4,53 @@ using Domain.Interfaces;
 using Infrastructure.External.BigGuy;
 using Infrastructure.External.SomeOtherGuy;
 using Infrastructure.Persistance;
-
+using Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Register all IProductRepository implementations
 builder.Services.AddScoped<IProductRepository, BigGuyProductRepository>();
 builder.Services.AddScoped<IProductRepository, SomeOtherGuyProductRepository>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
+// Configure DbContext with SQLite
 builder.Services.AddDbContext<TourGuyDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddScoped<ProductRepositoryAggregator>();
-builder.Services.AddScoped<ProductService>();
+// Register ProductRepositoryAggregator and inject all repositories
+builder.Services.AddScoped<ProductRepositoryAggregator>(serviceProvider =>
+{
+    var repositories = serviceProvider.GetServices<IProductRepository>().ToList();
+    return new ProductRepositoryAggregator(repositories);
+});
 
+// Register other services
+builder.Services.AddScoped<ProductService>();
+builder.Services.AddLogging();
 
 var app = builder.Build();
-// Configure the HTTP request pipeline.
+
+// Apply database migrations and populate data if the database is empty
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<TourGuyDbContext>();
+    
+    // Ensure database is created and migrations are applied
+    context.Database.Migrate();
+    
+    // Populate database with initial data if empty
+    if (!context.Products.Any())
+    {
+        PopulateDbFromJson.Populate(context);
+    }
+}
+
+// Configure the HTTP request pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -32,9 +58,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();

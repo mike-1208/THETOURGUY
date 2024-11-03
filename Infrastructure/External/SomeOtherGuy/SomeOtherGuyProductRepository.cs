@@ -94,9 +94,9 @@ namespace Infrastructure.External.SomeOtherGuy
             {
                 Name = p.Name,
                 Description = p.ProductDescription,
-                DestinationName = location ?? "Unknown",
+                Destination = location ?? "Unknown",
                 Price = p.Price * (1 - p.DiscountPercentage / 100),
-                SupplierName = Supplier
+                Supplier = Supplier
             }).ToList();
         }
 
